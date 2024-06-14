@@ -24,12 +24,17 @@ const xSetRotations = calculateRotationSet(-0.5);
 const ySetRotations = calculateRotationSet(0.5);
 const zSetRotations = calculateRotationSet(1);
 
+//let [setX, setY, setZ] = generateMicroSet();
+//let [setX, setZ, setY] = generateMicroSet();
+let [setX, setY, setZ] = generateMicroSet();
+
+xSetRotations.sort();
+
 
 function generateMicroSet() {
-    
 
     function gen(i) {
-        let axisSwitch = midAxisRotation(i);
+        let axisSwitch = midAxisRotation(i); //something might be wrong here
         let set = [];
         for (let b = -1; b < 2; b++){
 
@@ -38,28 +43,27 @@ function generateMicroSet() {
 
             for (let c = 0; c < increment; c++) {
                 let rotationB = Quaternion.euler(360 / (increment) * c, 0, 0);
-                let temp = ((rotationA).mult(rotationB)).mult(axisSwitch);
+                let temp = rotationA.mult(rotationB).mult(axisSwitch); // or here
                 set.push(temp)
             }
         }
+        return set;
     }
 
-
-    
-    return [gen(0), gen(1), gen(2)];
+    return [gen(0), gen(1), gen(2)]; // x y z
 }
 
 function midAxisRotation(input) {
     let val;
     if (input === 0) {
-        val = -0.5; // x
+        val = 1; // x
     } else if (input === 1) {
-        val = 0.5; // y
+        val = -0.5; // y
     } else {
-        val = 1; // z
+        val = 0.5; // z
     }
 
-    const xyzValue = Math.sqrt((1 - val * val) / 3.0);
+    const xyzValue = Math.sqrt((1 - val * val) / 3);
 
-    return new Quaternion(val, xyzValue, xyzValue, xyzValue);
+    return (new Quaternion(val, xyzValue, xyzValue, xyzValue));
 }

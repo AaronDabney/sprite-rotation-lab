@@ -5,6 +5,7 @@ function suzanneTestAnimation(time, destName) {
     let headTop = Quaternion.euler(90, 0, 0);
     let spin = Quaternion.euler(0, angle * 20, 0);
 
+    renderBasisVectors(100, spin, destName);
     renderMesh(suzanneMesh, 200 * (targetCanvas.width / 720), spin, new Vector3(targetCanvas.width / 2, targetCanvas.height / 2, 0), drawingContext, true);
     renderMesh(suzanneMesh, 50 * ((targetCanvas.width / 720)), headTop.mult(spin), new Vector3((630 / 720) * targetCanvas.width, (630 / 720) * targetCanvas.height, 0), drawingContext, true);
 }
@@ -12,12 +13,14 @@ function suzanneTestAnimation(time, destName) {
 function rotationDisplayer(rotation, destName) {
     [targetCanvas, drawingContext] = canvasInfo(destName);
 
+    renderBasisVectors(100, rotation, destName);
     renderMesh(suzanneMesh, 200 * (targetCanvas.width / 720), rotation, new Vector3(targetCanvas.width / 2, targetCanvas.height / 2, 0), drawingContext, true);
 }
 
 
 function axisMethodRotationTracker(targetRotation, axis, destName) {
     [targetCanvas, drawingContext] = canvasInfo(destName);
+    
 
     let basisVec = new Vector3();
     let rotationSet = [];
@@ -55,7 +58,8 @@ function axisMethodRotationTracker(targetRotation, axis, destName) {
     let bestRotation = rotationSet[closestFrame];
 
     let finalRotation = zRotation.mult(bestRotation);
-
+    
+    renderBasisVectors(100, finalRotation, destName);
     renderMesh(suzanneMesh, 100, finalRotation, new Vector3(targetCanvas.width / 2, targetCanvas.width / 2, 0), drawingContext, true);
 }
 
@@ -121,7 +125,77 @@ function axisCombinationRotationTracker(targetRotation, destName) {
 
     let finalRotation = zRotation.mult(bestRotation);
 
+    renderBasisVectors(100, finalRotation, destName);
     renderMesh(suzanneMesh, 100, finalRotation, new Vector3(targetCanvas.width / 2, targetCanvas.width / 2, 0), drawingContext, true);
 
     return {rotation: bestRotation, type: rotationsSets[0].type, index: closestQuaternionIndex}
+}
+
+
+function microSetRotationTracker(targetRotation, destName) {
+    [targetCanvas, drawingContext] = canvasInfo(destName);
+
+    let forward = new Vector3(0, 0, 1);
+
+    let microSets = [
+        {
+            type: 'x',
+            localVec: targetRotation.rotateVec(new Vector3(1, 0, 0)),
+            set: setX,
+        },
+        {
+            type: 'y',
+            localVec: targetRotation.rotateVec(new Vector3(0, 1, 0)),
+            set: setY,
+        },
+        {
+            type: 'z',
+            localVec: targetRotation.rotateVec(new Vector3(0, 0, 1)),
+            set: setZ,
+        }
+    ];
+
+    microSets.forEach(el => {
+        el.singularityProximity = Math.abs(el.localVec.dot(forward))
+    });
+
+    microSets.sort((a, b) => {
+        if (a.singularityProximity > b.singularityProximity) {
+            return 1;
+        } else if (a.singularityProximity < b.singularityProximity) {
+            return -1;
+        }
+        return 0;
+    });
+
+    let refVec = microSets[0].localVec;
+    let bestSet = microSets[0].set;
+
+    let angle = Math.atan2(refVec.y, refVec.x) * (180/Math.PI);
+
+    let zRotation = Quaternion.euler(0, 0, angle);
+
+    let rotationApproximation = (zRotation.conjugate).mult(targetRotation);
+
+    let closestQuaternionIndex = 0;
+    let smallestAngle = 1000;
+
+    bestSet.forEach((rot, index) => {
+        let angle = rot.differenceMagnitude(rotationApproximation);
+
+        if (angle < smallestAngle) {
+            smallestAngle = angle;
+            closestQuaternionIndex = index;
+        }
+    })
+
+    let bestRotation = bestSet[closestQuaternionIndex];
+
+    let finalRotation = zRotation.mult(bestRotation);
+    
+    renderBasisVectors(100, finalRotation, destName);
+    renderMesh(suzanneMesh, 100, finalRotation, new Vector3(targetCanvas.width / 2, targetCanvas.width / 2, 0), drawingContext, true);
+
+
+
 }

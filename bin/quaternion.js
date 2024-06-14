@@ -92,9 +92,6 @@ class Quaternion {
     }
 
     differenceMagnitude(quat) {
-        // const right = Vector3.up();
-        // const up = Vector3.up();
-
         let xBasis = new Vector3(1, 0, 0);
         let yBasis = new Vector3(0, 1, 0);
         let zBasis = new Vector3(0, 0, 1);
@@ -108,14 +105,6 @@ class Quaternion {
         let zAngle = Math.acos(zDiff) * (180/Math.PI);
 
         let diffMagnitude = Math.sqrt(xAngle*xAngle + yAngle*yAngle, zAngle*zAngle);
-
-    //    // console.log(vec);
-    //     const vecA = this.rotateVec(up);
-    //     const vecB = quat.rotateVec(up);
-
-    //     const dot = vecA.dot(vecB);
-
-    //     const theta = Math.acos(dot) * (180/Math.PI)
 
         return diffMagnitude;
     }
@@ -133,6 +122,29 @@ class Quaternion {
         let theta = Math.acos(dot);
 
         return theta;
+    }
+
+    flipSign() {
+        return new Quaternion(-this.w, -this.x, -this.y, -this.z);
+    }
+
+    dist(q) {
+        if (q.w < 0) {
+            q = q.flipSign();
+        }
+        let t = this;
+        if (t.w < 0) {
+            t = t.flipSign();
+        }
+        
+        let w = t.w - q.w;
+        let x = t.x - q.x;
+        let y = t.y - q.y;
+        let z = t.z - q.z;
+
+        let dist = Math.sqrt(w*w + x*x + y*y + z*z);
+
+        return dist;
     }
 
     static zero() {
