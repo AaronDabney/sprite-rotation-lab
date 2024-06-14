@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bin/styling.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="canvas-container">
+            <h2>ROTATION TARGET</h2><canvas id="rotation-target" width="360" height="360"></canvas>
+        </div>
+    </div>
+    <div class="container">
+        <div class="canvas-container">
+            <h2>X-AXIS TRACKING</h2><canvas id="x-axis-tracking" width="360" height="360"></canvas>
+        </div>
+        <div class="canvas-container">
+            <h2>Y-AXIS TRACKING</h2><canvas id="y-axis-tracking" width="360" height="360"></canvas>
+        </div>
+        <div class="canvas-container">
+            <h2>Z-AXIS TRACKING</h2><canvas id="z-axis-tracking" width="360" height="360"></canvas>
+        </div>
+    </div>
+    <div class="container">
+        <div class="canvas-container">
+            <h2>COMBINED AXIS TRACKING</h2><canvas id="combined-axis-tracking" width="360" height="360"></canvas>
+        </div>
+    </div>
+
+    <script src="bin/vector2.js"></script>
+    <script src="bin/vector3.js"></script>
+    <script src="bin/quaternion.js"></script>
+    <script src="bin/rotationSets.js"></script>
+    <script src="bin/animator.js"></script>
+    <script src="bin/animations.js"></script>
+    <script src="bin/rendering.js"></script>
+    <script src="./src/suzanneMesh.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
