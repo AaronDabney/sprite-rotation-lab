@@ -9,70 +9,142 @@
 </head>
 
 <body>
+    <p>
+        The rotation target (Suzanne) moves along a path that eventually passes through all rotations of interest.
+    </p>
     <div class="container">
         <div class="canvas-container">
-            <h2>ROTATION TARGET</h2><canvas id="rotation-target" width="360" height="360"></canvas>
+            <h2>Rotation Target</h2>
+            <canvas id="rotation-target" width="360" height="360"></canvas>
+        </div>
+    </div>
+    <p>
+        We create three sets of rotations. Each set has one of its three basis vectors 'locked' to the X-Z
+        plane. We rotate this plane-locked basis vector 180 degrees between the poles of global Z, recording the rotation at
+        discrete intervals.
+    </p>
+    <div class="container">
+        <div class="canvas-container">
+            <h2>X-Axis Set</h2><canvas id="x-axis-set" width="360" height="360"></canvas>
+        </div>
+        <div class="canvas-container">
+            <h2>Y-Axis Set</h2><canvas id="y-axis-set" width="360" height="360"></canvas>
+        </div>
+        <div class="canvas-container">
+            <h2>Z-Axis Set</h2><canvas id="z-axis-set" width="360" height="360"></canvas>
+        </div>
+    </div>
+    <p>
+        Returning to our target transformation, we measure the angles of the local basis vectors on the X-Y plane.
+    </p>
+    <div class="container">
+        <div class="canvas-container">
+            <h2>Rotation Target with Angles</h2><canvas id="rotation-target-angles" width="360" height="360"></canvas>
+        </div>
+    </div>
+    <p>
+        Using the measured angles we generate inverse rotations that would bring local X Y and Z vectors axes back to the X-Z plane 
+    </p>
+    <div class="container">
+        <div class="canvas-container">
+            <h2>Unrotated Target X</h2><canvas id="unrotated-target-x" width="360" height="360"></canvas>
+        </div>
+        <div class="canvas-container">
+            <h2>Unrotated Target Y</h2><canvas id="unrotated-target-y" width="360" height="360"></canvas>
+        </div>
+        <div class="canvas-container">
+            <h2>Unrotated Target Z</h2><canvas id="unrotated-target-z" width="360" height="360"></canvas>
+        </div>
+    </div>
+    <p>
+        We compare the unrotated targets to the generated rotation sets and pick the closest 
+        matching rotation from the respective sets.
+    </p>
+    <div class="container">
+        <div class="canvas-container">
+            <h2>Rotation Selection X</h2><canvas id="rotation-selection-x" width="360" height="360"></canvas>
+        </div>
+        <div class="canvas-container">
+            <h2>Rotation Selection Y</h2><canvas id="rotation-selection-y" width="360" height="360"></canvas>
+        </div>
+        <div class="canvas-container">
+            <h2>Rotation Selection Z</h2><canvas id="rotation-selection-z" width="360" height="360"></canvas>
+        </div>
+    </div>
+    <p>
+        We rotate our selected rotations by their previously measured Z-angles 
+        to create axis-tracking representations. The tracking approximates our desired result, but contains an noticeable 'jitter' as the local basis vector approaches the span of global Z.
+    </p>
+    <div class="container">
+        <div class="canvas-container">
+            <h2>X-Axis Tracking</h2><canvas id="x-axis-tracking" width="360" height="360"></canvas>
+        </div>
+        <div class="canvas-container">
+            <h2>Y-Axis Tracking</h2><canvas id="y-axis-tracking" width="360" height="360"></canvas>
+        </div>
+        <div class="canvas-container">
+            <h2>Z-Axis Tracking</h2><canvas id="z-axis-tracking" width="360" height="360"></canvas>
+        </div>
+    </div>
+    <p>
+        To mitigate this jitter, we measure the local basis vector's proximity to global Z:
+
+        singularityProximity = Math.abs(globalZ.dot(localBasisVector)
+
+        We then select rotation set/representation that minimizes this proximity.
+    </p>
+    <div class="container">
+        <div class="canvas-container">
+            <h2>Combined Axis Tracking</h2><canvas id="combined-axis-tracking" width="360" height="360"></canvas>
+        </div>
+    </div>
+    <p>
+        We identified which rotations from each of the original roations sets were actually selected during combined axis tracking. 
+        These sets were all rotations of a 'canonical' microset that we then generated artificially.
+    </p>
+    <div class="container">
+        <div class="canvas-container">
+            <h2>Canonical Microset</h2><canvas id="canonical-microset" width="360" height="360"></canvas>
         </div>
     </div>
     <div class="container">
         <div class="canvas-container">
-            <h2>X-AXIS TRACKING</h2><canvas id="x-axis-tracking" width="360" height="360"></canvas>
+            <h2>X-Set Base Rotation</h2><canvas id="x-axis-select" width="360" height="360"></canvas>
         </div>
         <div class="canvas-container">
-            <h2>Y-AXIS TRACKING</h2><canvas id="y-axis-tracking" width="360" height="360"></canvas>
+            <h2>Y-Set Base Rotation</h2><canvas id="y-axis-select" width="360" height="360"></canvas>
         </div>
         <div class="canvas-container">
-            <h2>Z-AXIS TRACKING</h2><canvas id="z-axis-tracking" width="360" height="360"></canvas>
+            <h2>Z-Set Base Rotation</h2><canvas id="z-axis-select" width="360" height="360"></canvas>
         </div>
     </div>
+
     <div class="container">
         <div class="canvas-container">
-            <h2>STANDARD X-AXIS SET</h2><canvas id="standard-x-axis-set" width="360" height="360"></canvas>
+            <h2>Microset X</h2><canvas id="microset-x" width="360" height="360"></canvas>
         </div>
         <div class="canvas-container">
-            <h2>STANDARD Y-AXIS SET</h2><canvas id="standard-y-axis-set" width="360" height="360"></canvas>
+            <h2>Microset Y</h2><canvas id="microset-y" width="360" height="360"></canvas>
         </div>
         <div class="canvas-container">
-            <h2>STANDARD Z-AXIS SET</h2><canvas id="standard-z-axis-set" width="360" height="360"></canvas>
+            <h2>Microset Z</h2><canvas id="microset-z" width="360" height="360"></canvas>
         </div>
     </div>
+    <p>
+        The microset axis tracking, while identical to the combined axis method, allows for greatly reduced rotations in memory and fewer images required in the final image set.
+    </p>
     <div class="container">
         <div class="canvas-container">
-            <h2>COMBINED AXIS TRACKING</h2><canvas id="combined-axis-tracking" width="360" height="360"></canvas>
+            <h2>Rotation Target</h2><canvas id="rotation-target-2" width="360" height="360"></canvas>
+        </div>
+        <div class="canvas-container">
+            <h2>Microset Axis Tracking</h2><canvas id="microset-axis-tracking" width="360" height="360"></canvas>
+        </div>
+        <div class="canvas-container">
+            <h2>Combined Axis Tracking</h2><canvas id="combined-axis-tracking-2" width="360" height="360"></canvas>
         </div>
     </div>
-    <div class="container">
-        <div class="canvas-container">
-            <h2>MICROSET AXIS TRACKING</h2><canvas id="microset-axis-tracking" width="360" height="360"></canvas>
-        </div>
-    </div>
-    <div class="container">
-        <div class="canvas-container">
-            <h2>MICROSET X</h2><canvas id="microset-x" width="360" height="360"></canvas>
-        </div>
-        <div class="canvas-container">
-            <h2>MICROSET Y</h2><canvas id="microset-y" width="360" height="360"></canvas>
-        </div>
-        <div class="canvas-container">
-            <h2>MICROSET Z</h2><canvas id="microset-z" width="360" height="360"></canvas>
-        </div>
-    </div>
-    <div class="container">
-        <div class="canvas-container">
-            <h2>MID-AXIS SPIN</h2><canvas id="mid-axis-spin" width="360" height="360"></canvas>
-        </div>
-    </div>
-    <div class="container">
-        <div class="canvas-container">
-            <h2>TEST SET X</h2><canvas id="test-set-x" width="360" height="360"></canvas>
-        </div>
-        <div class="canvas-container">
-            <h2>TEST SET Y</h2><canvas id="test-set-y" width="360" height="360"></canvas>
-        </div>
-        <div class="canvas-container">
-            <h2>TEST SET Z</h2><canvas id="test-set-z" width="360" height="360"></canvas>
-        </div>
-    </div>
+
     <script src="bin/vector2.js"></script>
     <script src="bin/vector3.js"></script>
     <script src="bin/quaternion.js"></script>

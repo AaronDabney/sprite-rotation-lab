@@ -48,6 +48,7 @@ function renderBasisVectors(scale, rotation, destName) {
     yBasis = yBasis.mult(scale).add(offset);
     zBasis = zBasis.mult(scale).add(offset);
 
+    drawingContext.setLineDash([]);
     drawingContext.lineWidth = 10;
     drawingContext.strokeStyle = `rgb(${255} ${0} ${0})`;
     drawLine(origin, xBasis);
@@ -69,4 +70,15 @@ function drawLine(from, to) {
     drawingContext.moveTo(from.x, from.y);
     drawingContext.lineTo(to.x, to.y);
     drawingContext.stroke();
+}
+
+function clearAllCanvas(node) {
+    if (node.nodeName === 'CANVAS') {
+        let ctx = node.getContext("2d");
+        ctx.clearRect(0 ,0, node.width, node.height);
+    }
+
+    Array.from(node.children).forEach(child => {
+        clearAllCanvas(child);
+    })
 }

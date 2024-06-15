@@ -1,111 +1,58 @@
-function spinDisplay(time) {
-    let index = Math.floor(time * 0.01) % 219;
-    let spin = ySetRotations[index];
-
-    renderMesh(suzanneMesh, 200, spin, new Vector3(360, 360, 0), ctx, true);
-}
-
-
-// console.log(`Microset length: ${microSet.length}`);
-
-let testSetX = [];
-let testSetY = [];
-let testSetZ = [];
+animator(animationLoop);
 
 function animationLoop(time) {
-
-    function clearAllCanvas(node) {
-        if (node.nodeName === 'CANVAS') {
-            let ctx = node.getContext("2d");
-            ctx.clearRect(0 ,0, node.width, node.height);
-        }
-
-        Array.from(node.children).forEach(child => {
-            clearAllCanvas(child);
-        })
-    }
-
     clearAllCanvas(document.body);
 
-    let angle = time * 0.1;
+    let timeSlow = time * 0.01;
+    let index68 = Math.floor(timeSlow % 68);
+    let index220 = Math.floor(timeSlow % 220);
 
-    //let targetRotation = Quaternion.randomQuaternion();
-    let targetRotation = Quaternion.euler(angle*Math.E, angle*1.1, angle*0.5);
-    
+    let targetRotation = Quaternion.euler(timeSlow * 20, timeSlow * 11, timeSlow * 5);
+
+    // Rotation Target
     rotationDisplayer(targetRotation, "rotation-target");
-   // renderBasisVectors(100, targetRotation, "rotation-target")
 
+    // X-Z Plane Locked Sets
+    rotationDisplayer(xSetRotations[index220], 'x-axis-set');
+    rotationDisplayer(ySetRotations[index220], 'y-axis-set');
+    rotationDisplayer(zSetRotations[index220], 'z-axis-set');
+
+    // Rotation Target with Angles
+    rotationDisplayerWithReferenceVectorAngles(targetRotation, 'rotation-target-angles')
+
+    // Unrotated Targets
+    unrotatedTarget(targetRotation, new Vector3(1, 0, 0), 'unrotated-target-x');
+    unrotatedTarget(targetRotation, new Vector3(0, 1, 0), 'unrotated-target-y');
+    unrotatedTarget(targetRotation, new Vector3(0, 0, 1), 'unrotated-target-z');
+
+    // Unrotated Target Selections
+    unrotatedTargetSetSelection(targetRotation, new Vector3(1, 0, 0), xSetRotations, "rotation-selection-x");
+    unrotatedTargetSetSelection(targetRotation, new Vector3(0, 1, 0), ySetRotations, "rotation-selection-y");
+    unrotatedTargetSetSelection(targetRotation, new Vector3(0, 0, 1), zSetRotations, "rotation-selection-z");
+
+    // Naive Axis Tracking
     axisMethodRotationTracker(targetRotation, 'x', 'x-axis-tracking');
     axisMethodRotationTracker(targetRotation, 'y', 'y-axis-tracking');
     axisMethodRotationTracker(targetRotation, 'z', 'z-axis-tracking');
 
-    // Standard sets
-    let standardIndex = Math.floor(time*.01 % 220);
-    console.log(standardIndex);
-    rotationDisplayer(xSetRotations[standardIndex], 'standard-x-axis-set');
-    rotationDisplayer(ySetRotations[standardIndex], 'standard-y-axis-set')
-    rotationDisplayer(zSetRotations[standardIndex], 'standard-z-axis-set')
+    // Combined Axis Tracking
+    axisCombinationRotationTracker(targetRotation, 'combined-axis-tracking');
 
-    let winningRotation = axisCombinationRotationTracker(targetRotation, 'combined-axis-tracking');
-    let testIndex = Math.floor(time*.01 % 68);
+    // Canonical Microset
+    rotationDisplayer(setZ[index68], 'canonical-microset');
 
-    rotationDisplayer(setX[testIndex], 'microset-x');
-    rotationDisplayer(setY[testIndex], 'microset-y')
-    rotationDisplayer(setZ[testIndex], 'microset-z')
+    // Base Rotations
+    rotationDisplayer(midAxisRotation('z'), "x-axis-select");
+    rotationDisplayer(midAxisRotation('x'), "y-axis-select");
+    rotationDisplayer(midAxisRotation('y'), "z-axis-select");
 
+    // Microsets
+    rotationDisplayer(setX[index68], 'microset-x');
+    rotationDisplayer(setY[index68], 'microset-y')
+    rotationDisplayer(setZ[index68], 'microset-z')
+
+    // Final Comarison
+    rotationDisplayer(targetRotation, "rotation-target-2");
     microSetRotationTracker(targetRotation, 'microset-axis-tracking');
-
-    let val = Math.sin(angle*.01);
-    const xyzValue = Math.sqrt((1 - val * val) / 3.0);
-    let q = (new Quaternion(val, xyzValue, xyzValue, xyzValue)).normalize();
-
-    rotationDisplayer(q, "mid-axis-spin");
-
-
-    //let indexMatches = el => el.index !== winningRotation.index;
-
-    let distanceTest = (rot) => {
-        if (rot.dist(winningRotation.rotation) < 0.1) {
-            return true;
-        } else {
-            return false
-        }
-    }
-    
-    if (winningRotation.type == 'x') {
-        if (testSetX.every(el => !distanceTest(el))) {
-            testSetX.push(winningRotation.rotation); 
-        }
-    } else if (winningRotation.type == 'y') {
-        if (testSetY.every(el => !distanceTest(el))) {
-            testSetY.push(winningRotation.rotation); 
-        }
-    } else if (winningRotation.type == 'z') {
-        if (testSetZ.every(el => !distanceTest(el))) {
-            testSetZ.push(winningRotation.rotation); 
-        }
-    } else {
-        throw "WHOOPS";
-    }
-
-   // let testSetIndex = 
-    if (testSetX.length > 0) {
-        rotationDisplayer(testSetX[Math.floor(time*.01 % testSetX.length)], 'test-set-x'); 
-    }
-    if (testSetY.length > 0) {
-        rotationDisplayer(testSetY[Math.floor(time*.01 % testSetY.length)], 'test-set-y'); 
-    }
-    if (testSetZ.length > 0) {
-        rotationDisplayer(testSetZ[Math.floor(time*.01 % testSetZ.length)], 'test-set-z'); 
-    } 
-    
-    // rotationDisplayer(testSetY[Math.floor(time*.01 % testSetY.length)], 'test-set-x');
-    // rotationDisplayer(testSetZ[Math.floor(time*.01 % testSetZ.length)], 'test-set-x');
-
-    
-  //  console.log(`testSetX length: ${testSetX.length} testSetX length: ${testSetY.length} testSetX length: ${testSetZ.length}`)
-
+    axisCombinationRotationTracker(targetRotation, 'combined-axis-tracking-2');
 }
-
-
-animator(animationLoop);

@@ -3,7 +3,7 @@ body {
 }
 
 canvas {
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
 }
 
 .container {
@@ -12,15 +12,35 @@ canvas {
     margin-right: auto;
 }
 .canvas-container {
-    border: 1px solid rgb(255, 0, 0);
+    border: 5px solid rgb(179, 25, 145);
     display: inline-block;
     max-width: fit-content;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
 }
 
 h2 {
     color: white;
     text-align: center;
+    font-size: 1em;
+}
+
+text {
+    align-self: center;
+}
+
+p {
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 75%;
+    text-align: center;
+    align-self: center;
+    font-size: 2em;
+}
+
+.canvas-note {
+    color: white;
     font-size: 1em;
 }
