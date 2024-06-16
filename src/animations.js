@@ -21,9 +21,9 @@ function rotationDisplayer(rotation, destName) {
 function rotationDisplayerWithReferenceVectorAngles(rotation, destName) {
     [targetCanvas, drawingContext] = canvasInfo(destName);
 
-    let xBasis = rotation.rotateVec(new Vector3(1, 0, 0));
-    let yBasis = rotation.rotateVec(new Vector3(0, 1, 0));
-    let zBasis = rotation.rotateVec(new Vector3(0, 0, 1));
+    let xBasis = rotation.rotateVector(new Vector3(1, 0, 0));
+    let yBasis = rotation.rotateVector(new Vector3(0, 1, 0));
+    let zBasis = rotation.rotateVector(new Vector3(0, 0, 1));
 
     let xRadius = xBasis.toVector2().mag*100;
     let xAngle = Math.atan2(xBasis.y, xBasis.x);
@@ -77,7 +77,7 @@ function axisMethodRotationTracker(targetRotation, axis, destName) {
         throw "INVALID AXIS";
     }
 
-    let vec = targetRotation.rotateVec(basisVec);
+    let vec = targetRotation.rotateVector(basisVec);
     let zRotationTheta = Math.atan2(vec.y, vec.x) * 180 / Math.PI;
     let zRotation = Quaternion.euler(0, 0, zRotationTheta);
 
@@ -111,17 +111,17 @@ function axisCombinationRotationTracker(targetRotation, destName) {
     let rotationsSets = [
         {
             type: 'x',
-            localVec: targetRotation.rotateVec(new Vector3(1, 0, 0)),
+            localVec: targetRotation.rotateVector(new Vector3(1, 0, 0)),
             set: xSetRotations,
         },
         {
             type: 'y',
-            localVec: targetRotation.rotateVec(new Vector3(0, 1, 0)),
+            localVec: targetRotation.rotateVector(new Vector3(0, 1, 0)),
             set: ySetRotations,
         },
         {
             type: 'z',
-            localVec: targetRotation.rotateVec(new Vector3(0, 0, 1)),
+            localVec: targetRotation.rotateVector(new Vector3(0, 0, 1)),
             set: zSetRotations,
         }
     ]
@@ -180,17 +180,17 @@ function microSetRotationTracker(targetRotation, destName) {
     let microSets = [
         {
             type: 'x',
-            localVec: targetRotation.rotateVec(new Vector3(1, 0, 0)),
+            localVec: targetRotation.rotateVector(new Vector3(1, 0, 0)),
             set: setX,
         },
         {
             type: 'y',
-            localVec: targetRotation.rotateVec(new Vector3(0, 1, 0)),
+            localVec: targetRotation.rotateVector(new Vector3(0, 1, 0)),
             set: setY,
         },
         {
             type: 'z',
-            localVec: targetRotation.rotateVec(new Vector3(0, 0, 1)),
+            localVec: targetRotation.rotateVector(new Vector3(0, 0, 1)),
             set: setZ,
         }
     ];
@@ -243,7 +243,7 @@ function microSetRotationTracker(targetRotation, destName) {
 function unrotatedTarget(targetRotation, basis, destName) {
     [targetCanvas, drawingContext] = canvasInfo(destName);
 
-    basis = targetRotation.rotateVec(basis);
+    basis = targetRotation.rotateVector(basis);
     let angle = Math.atan2(basis.y, basis.x);
 
     let zRotation = Quaternion.euler(0, 0, angle*180/Math.PI);
@@ -257,7 +257,7 @@ function unrotatedTarget(targetRotation, basis, destName) {
 function unrotatedTargetSetSelection(targetRotation, basis, set, destName) {
     [targetCanvas, drawingContext] = canvasInfo(destName);
 
-    basis = targetRotation.rotateVec(basis);
+    basis = targetRotation.rotateVector(basis);
     let angle = Math.atan2(basis.y, basis.x);
 
     let zRotation = Quaternion.euler(0, 0, angle*180/Math.PI);
@@ -280,3 +280,6 @@ function unrotatedTargetSetSelection(targetRotation, basis, set, destName) {
     renderBasisVectors(100, bestRotation, destName);
     renderMesh(suzanneMesh, 100, bestRotation, new Vector3(targetCanvas.width / 2, targetCanvas.width / 2, 0), drawingContext, true);
 }
+
+// need to create more robust method to import mollymath
+// only reason theres a break is because i deleted it

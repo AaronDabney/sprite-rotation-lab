@@ -7,9 +7,9 @@ function renderMesh(meshData, scale, rotation, offset, drawingContext, cull) {
         let vertexB = new Vector3(...meshData.vertices[face[1]]);
         let vertexC = new Vector3(...meshData.vertices[face[2]]);
 
-        vertexA = rotation.rotateVec(vertexA);
-        vertexB = rotation.rotateVec(vertexB);
-        vertexC = rotation.rotateVec(vertexC);
+        vertexA = rotation.rotateVector(vertexA);
+        vertexB = rotation.rotateVector(vertexB);
+        vertexC = rotation.rotateVector(vertexC);
 
         const triangleZDepth = (vertexA.z + vertexB.z+ vertexC.z)*(1/3)*255;
         const depthColoring = triangleZDepth;
@@ -37,9 +37,9 @@ function renderBasisVectors(scale, rotation, destName) {
     let yBasis = new Vector3(0, 1, 0);
     let zBasis = new Vector3(0, 0, 1);
     
-    xBasis = rotation.rotateVec(xBasis);
-    yBasis = rotation.rotateVec(yBasis);
-    zBasis = rotation.rotateVec(zBasis);
+    xBasis = rotation.rotateVector(xBasis);
+    yBasis = rotation.rotateVector(yBasis);
+    zBasis = rotation.rotateVector(zBasis);
 
     let offset = new Vector3(targetCanvas.width/2, targetCanvas.height/2);
 
