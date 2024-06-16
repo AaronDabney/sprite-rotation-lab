@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/styling.css">
 </head>
+
 <body>
     <p>
         The rotation target (Suzanne) moves along a path that eventually passes through all rotations of interest.
@@ -18,7 +20,8 @@
     </div>
     <p>
         We create three sets of rotations. Each set has one of its three basis vectors 'locked' to the X-Z
-        plane. We rotate this plane-locked basis vector 180 degrees between the poles of global Z, recording the rotation at
+        plane. We rotate this plane-locked basis vector 180 degrees between the poles of global Z, recording the
+        rotation at
         discrete intervals.
     </p>
     <div class="container">
@@ -41,7 +44,8 @@
         </div>
     </div>
     <p>
-        Using the measured angles we generate inverse rotations that bring the local X, Y, and Z vectors axes back to the X-Z plane 
+        Using the measured angles we generate inverse rotations that bring the local X, Y, and Z vectors axes back to
+        the X-Z plane
     </p>
     <div class="container">
         <div class="canvas-container">
@@ -55,7 +59,7 @@
         </div>
     </div>
     <p>
-        We compare the unrotated targets to the generated rotation sets and pick the closest 
+        We compare the unrotated targets to the generated rotation sets and pick the closest
         matching rotation from the respective sets.
     </p>
     <div class="container">
@@ -70,8 +74,9 @@
         </div>
     </div>
     <p>
-        We rotate our selected rotations by their previously measured Z-angles 
-        to create axis-tracking representations. The tracking approximates our desired result, but contains an noticeable 'jitter' as the local basis vector approaches the span of global Z.
+        We rotate our selected rotations by their previously measured Z-angles
+        to create axis-tracking representations. The tracking approximates our target rotation, but contains a
+        noticeable 'jitter' as the local basis vector approaches the span of global Z.
     </p>
     <div class="container">
         <div class="canvas-container">
@@ -87,7 +92,7 @@
     <p>
         To mitigate this jitter, we measure the local basis vector's proximity to global Z:
 
-        singularityProximity = Math.abs(globalZ.dot(localBasisVector)
+        singularityProximity = Math.abs(globalZ.dot(localBasisVector))
 
         We then select rotation set/representation that minimizes this proximity.
     </p>
@@ -97,7 +102,8 @@
         </div>
     </div>
     <p>
-        We identified which rotations from each of the original roations sets were actually selected during combined axis tracking. 
+        We identified which rotations from each of the original roations sets were actually selected during combined
+        axis tracking.
         These sets were all rotations of a 'canonical' microset that we then generated artificially.
     </p>
     <div class="container">
@@ -129,7 +135,8 @@
         </div>
     </div>
     <p>
-        The microset axis tracking, while identical to the combined axis method, allows for greatly reduced rotations in memory and fewer images required in the final image set.
+        The microset axis tracking, while identical to the combined axis method, allows for greatly reduced rotations in
+        memory and fewer images required in the final image set.
     </p>
     <div class="container">
         <div class="canvas-container">
@@ -144,6 +151,8 @@
     </div>
 
     <script src="node_modules/molly-math.js/dist/molly-math.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="src/rotationSets.js"></script>
     <script src="src/animator.js"></script>
     <script src="src/animations.js"></script>
@@ -151,4 +160,5 @@
     <script src="src/suzanneMesh.js"></script>
     <script src="main.js"></script>
 </body>
+
 </html>
