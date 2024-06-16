@@ -1,7 +1,7 @@
 function suzanneTestAnimation(time, destName) {
     [targetCanvas, drawingContext] = canvasInfo(destName);
 
-    angle = time * 0.01;
+    let angle = time * 0.01;
     let headTop = Quaternion.euler(90, 0, 0);
     let spin = Quaternion.euler(0, angle * 20, 0);
 
@@ -17,7 +17,6 @@ function rotationDisplayer(rotation, destName) {
     renderMesh(suzanneMesh, 200 * (targetCanvas.width / 720), rotation, new Vector3(targetCanvas.width / 2, targetCanvas.height / 2, 0), drawingContext, true);
 }
 
-
 function rotationDisplayerWithReferenceVectorAngles(rotation, destName) {
     [targetCanvas, drawingContext] = canvasInfo(destName);
 
@@ -25,18 +24,17 @@ function rotationDisplayerWithReferenceVectorAngles(rotation, destName) {
     let yBasis = rotation.rotateVector(new Vector3(0, 1, 0));
     let zBasis = rotation.rotateVector(new Vector3(0, 0, 1));
 
-    let xRadius = xBasis.toVector2().mag*100;
+    let xRadius = xBasis.toVector2().mag() * 100;
     let xAngle = Math.atan2(xBasis.y, xBasis.x);
 
-    let yRadius = yBasis.toVector2().mag*100;
+    let yRadius = yBasis.toVector2().mag() * 100;
     let yAngle = Math.atan2(yBasis.y, yBasis.x);
 
-    let zRadius = zBasis.toVector2().mag*100;
+    let zRadius = zBasis.toVector2().mag() * 100;
     let zAngle = Math.atan2(zBasis.y, zBasis.x);
 
     renderBasisVectors(100, rotation, destName);
     renderMesh(suzanneMesh, 100 * (targetCanvas.width / 720), rotation, new Vector3(targetCanvas.width / 2, targetCanvas.height / 2, 0), drawingContext, true);
-    
     
     drawingContext.lineWidth = 5;
     drawingContext.setLineDash([5, 5]);
@@ -45,7 +43,6 @@ function rotationDisplayerWithReferenceVectorAngles(rotation, destName) {
     drawingContext.beginPath();
     drawingContext.ellipse(targetCanvas.width/2, targetCanvas.height/2, xRadius, xRadius, 0, 0, xAngle, true)
     drawingContext.stroke();
-
 
     drawingContext.strokeStyle = 'green'
     drawingContext.beginPath();
@@ -96,7 +93,6 @@ function axisMethodRotationTracker(targetRotation, axis, destName) {
     })
 
     let bestRotation = rotationSet[closestFrame];
-
     let finalRotation = zRotation.mult(bestRotation);
     
     renderBasisVectors(100, finalRotation, destName);
@@ -167,10 +163,7 @@ function axisCombinationRotationTracker(targetRotation, destName) {
 
     renderBasisVectors(100, finalRotation, destName);
     renderMesh(suzanneMesh, 100, finalRotation, new Vector3(targetCanvas.width / 2, targetCanvas.width / 2, 0), drawingContext, true);
-
-    return {rotation: bestRotation, type: rotationsSets[0].type, index: closestQuaternionIndex}
 }
-
 
 function microSetRotationTracker(targetRotation, destName) {
     [targetCanvas, drawingContext] = canvasInfo(destName);
@@ -181,17 +174,17 @@ function microSetRotationTracker(targetRotation, destName) {
         {
             type: 'x',
             localVec: targetRotation.rotateVector(new Vector3(1, 0, 0)),
-            set: setX,
+            set: microsetX,
         },
         {
             type: 'y',
             localVec: targetRotation.rotateVector(new Vector3(0, 1, 0)),
-            set: setY,
+            set: microsetY,
         },
         {
             type: 'z',
             localVec: targetRotation.rotateVector(new Vector3(0, 0, 1)),
-            set: setZ,
+            set: microsetZ,
         }
     ];
 
@@ -236,7 +229,6 @@ function microSetRotationTracker(targetRotation, destName) {
     
     renderBasisVectors(100, finalRotation, destName);
     renderMesh(suzanneMesh, 100, finalRotation, new Vector3(targetCanvas.width / 2, targetCanvas.width / 2, 0), drawingContext, true);
-
 }
 
 
@@ -252,7 +244,6 @@ function unrotatedTarget(targetRotation, basis, destName) {
     renderBasisVectors(100, rotationApproximation, destName);
     renderMesh(suzanneMesh, 100, rotationApproximation, new Vector3(targetCanvas.width / 2, targetCanvas.width / 2, 0), drawingContext, true);
 }
-
 
 function unrotatedTargetSetSelection(targetRotation, basis, set, destName) {
     [targetCanvas, drawingContext] = canvasInfo(destName);
@@ -280,6 +271,3 @@ function unrotatedTargetSetSelection(targetRotation, basis, set, destName) {
     renderBasisVectors(100, bestRotation, destName);
     renderMesh(suzanneMesh, 100, bestRotation, new Vector3(targetCanvas.width / 2, targetCanvas.width / 2, 0), drawingContext, true);
 }
-
-// need to create more robust method to import mollymath
-// only reason theres a break is because i deleted it

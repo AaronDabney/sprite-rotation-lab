@@ -12,7 +12,8 @@ canvas {
     margin-right: auto;
 }
 .canvas-container {
-    border: 5px solid rgb(179, 25, 145);
+    border-radius: 25px;
+    border: 5px solid rgb(46, 90, 88);
     display: inline-block;
     max-width: fit-content;
     margin-left: auto;
@@ -34,7 +35,7 @@ p {
     color: white;
     margin-left: auto;
     margin-right: auto;
-    max-width: 75%;
+    max-width: 50%;
     text-align: center;
     align-self: center;
     font-size: 2em;

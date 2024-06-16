@@ -17,7 +17,7 @@ const xSetRotations = calculateRotationSet('x');
 const ySetRotations = calculateRotationSet('y');
 const zSetRotations = calculateRotationSet('z');
 
-let [setX, setY, setZ] = generateMicroSets();
+let [microsetX, microsetY, microsetZ] = generateMicroSets();
 
 function generateMicroSets() {
     // The relationship between the mid-axis rotation and the assosciated set

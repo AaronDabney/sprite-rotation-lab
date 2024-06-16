@@ -18,7 +18,7 @@ function animationLoop(time) {
     rotationDisplayer(zSetRotations[index220], 'z-axis-set');
 
     // Rotation Target with Angles
-    rotationDisplayerWithReferenceVectorAngles(targetRotation, 'rotation-target-angles')
+    rotationDisplayerWithReferenceVectorAngles(targetRotation, 'rotation-target-angles');
 
     // Unrotated Targets
     unrotatedTarget(targetRotation, new Vector3(1, 0, 0), 'unrotated-target-x');
@@ -39,7 +39,7 @@ function animationLoop(time) {
     axisCombinationRotationTracker(targetRotation, 'combined-axis-tracking');
 
     // Canonical Microset
-    rotationDisplayer(setZ[index68], 'canonical-microset');
+    rotationDisplayer(microsetZ[index68], 'canonical-microset');
 
     // Base Rotations
     rotationDisplayer(midAxisRotation('z'), "x-axis-select");
@@ -47,9 +47,9 @@ function animationLoop(time) {
     rotationDisplayer(midAxisRotation('y'), "z-axis-select");
 
     // Microsets
-    rotationDisplayer(setX[index68], 'microset-x');
-    rotationDisplayer(setY[index68], 'microset-y')
-    rotationDisplayer(setZ[index68], 'microset-z')
+    rotationDisplayer(microsetX[index68], 'microset-x');
+    rotationDisplayer(microsetY[index68], 'microset-y')
+    rotationDisplayer(microsetZ[index68], 'microset-z')
 
     // Final Comarison
     rotationDisplayer(targetRotation, "rotation-target-2");
