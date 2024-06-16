@@ -1,6 +1,7 @@
 {
   "name": "sprite-rotation-lab",
   "version": "1.0.0",
+  "description": "This repository is an active test bed under development for algorithms and techniques for full 3D sprite rotation.",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -8,8 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "molly-math.js": "file:../molly-math.js"
+    "molly-math.js": "file:../molly-math.js/molly-math.js-1.0.0.tgz"
   }
 }
