@@ -56,3 +56,6 @@ function animationLoop(time) {
     microSetRotationTracker(targetRotation, 'microset-axis-tracking');
     axisCombinationRotationTracker(targetRotation, 'combined-axis-tracking-2');
 }
+
+
+let t = new Transform();
