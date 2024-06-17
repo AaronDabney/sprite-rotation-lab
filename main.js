@@ -1,3 +1,22 @@
+
+// let scenes = [];
+
+
+// let rotationTarget = new Scene();
+// rotationTarget.push(new SceneObject())
+
+
+
+
+//we define scenes and then push them onto the scene list
+
+// for (scene in scenes) {
+//     scenes.update();
+// }
+
+// the animation loop then passes time paramaters into all the scene objects
+// scene objects can have their own paramters which chagnes how they react to time updates.
+
 animator(animationLoop);
 
 function animationLoop(time) {
@@ -56,6 +75,3 @@ function animationLoop(time) {
     microSetRotationTracker(targetRotation, 'microset-axis-tracking');
     axisCombinationRotationTracker(targetRotation, 'combined-axis-tracking-2');
 }
-
-
-let t = new Transform();
