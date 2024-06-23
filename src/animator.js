@@ -7,7 +7,14 @@ function animator(animation) {
         let deltaTime = time - lastTime
         lastTime = time;
 
-        animation(time);
+        let timeData = {
+            time: time,
+            deltaTime: deltaTime
+        }
+
+        animation(timeData);
         requestAnimationFrame(loop)
     }
 }
+
+export { animator }

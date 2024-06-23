@@ -7379,3 +7379,5 @@ const suzanneMesh = {
         ]
     ]
 }
+
+export { suzanneMesh }
